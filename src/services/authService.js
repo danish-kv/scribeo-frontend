@@ -3,7 +3,7 @@ import api from "./api";
 
 export const register = async (username, email, password) => {
   try {
-    const res = api.post("api/register/", {
+    const res = await api.post("api/register/", {
       username,
       email,
       password,
@@ -18,10 +18,12 @@ export const register = async (username, email, password) => {
 
 export const login = async (username, password) => {
   try {
-    const res = api.post("api/token/", {
+    const res = await api.post("api/token/", {
       username,
       password,
     });
+    console.log("res in authserice login", res);
+
     showToast(200, "Welcome Back!");
     return res.data;
   } catch (error) {
@@ -31,7 +33,12 @@ export const login = async (username, password) => {
 };
 
 export const logout = async () => {
-  localStorage.clear();
+  try {
+    const res = await api.post("logout/", { refresh });
+    return res.data;
+  } catch (error) {
+    handleError(error);
+  }
   showToast(200, "Thank You..");
 };
 

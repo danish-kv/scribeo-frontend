@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { ChevronDown, LogOut, User } from "lucide-react";
 import { LogoutThunk } from "../../redux/thunk/authThunk";
 
@@ -8,12 +8,18 @@ const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { user, profile } = useSelector((state) => state.auth);
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
   const BASE_URL = import.meta.env.VITE_BASE_URL
+
+  const handleLogout = () => {
+    dispatch(LogoutThunk())
+    navigate('/login')
+  }
 
   return (
     <nav className="bg-white border-b sticky top-0 z-50 shadow-sm">
@@ -83,7 +89,7 @@ const Header = () => {
                       <span>Profile</span>
                     </Link>
                     <button
-                      onClick={() => dispatch(LogoutThunk())}
+                      onClick={handleLogout}
                       className="w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-100 flex items-center space-x-2"
                     >
                       <LogOut className="w-4 h-4" />

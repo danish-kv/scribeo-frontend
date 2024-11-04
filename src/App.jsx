@@ -28,8 +28,8 @@ function App() {
           <Route path="/blog/create" element={<CreateBlog />} />
           <Route path="/blog/edit/:slug" element={<EditBlog />} />
           <Route path="/profile" element={<UserProfile />} />
-          <Route path="*" element={<NotFound />} />
         </Route>
+          <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );

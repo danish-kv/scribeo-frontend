@@ -32,9 +32,9 @@ export const login = async (username, password) => {
   }
 };
 
-export const logout = async () => {
+export const logout = async (refresh) => {
   try {
-    const res = await api.post("logout/", { refresh });
+    const res = await api.post("api/logout/", { 'refresh' : refresh });
     return res.data;
   } catch (error) {
     handleError(error);

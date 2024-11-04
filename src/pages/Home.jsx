@@ -7,6 +7,7 @@ import {
   TrendingUp,
   BookOpen,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const featuredPosts = [
@@ -70,13 +71,12 @@ const Home = () => {
               Read and share new perspectives on just about any topic.
               Everyone's welcome. Share your thinking.
             </p>
-            <a
-              href="/register"
-              className="inline-flex items-center px-6 py-3 rounded-full bg-black text-white hover:bg-gray-800"
-            >
-              Start writing
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </a>
+            <Link to={"/blog"}>
+              <span className="inline-flex items-center px-6 py-3 rounded-full bg-black text-white hover:bg-gray-800">
+                Start writing
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </span>
+            </Link>
           </div>
         </div>
       </section>
@@ -154,13 +154,12 @@ const Home = () => {
             Join millions of others and share your stories, ideas, and expertise
             with readers worldwide.
           </p>
-          <a
-            href="/register"
-            className="inline-flex items-center px-6 py-3 rounded-full bg-white text-black hover:bg-gray-100"
-          >
-            <BookOpen className="mr-2 h-5 w-5" />
-            Create your account
-          </a>
+          <Link to={"/register"}>
+            <span className="inline-flex items-center px-6 py-3 rounded-full bg-white text-black hover:bg-gray-100">
+              <BookOpen className="mr-2 h-5 w-5" />
+              Create your account
+            </span>
+          </Link>
         </div>
       </section>
     </div>

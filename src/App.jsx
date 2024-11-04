@@ -10,6 +10,7 @@ import CreateBlog from "./pages/CreateBlog";
 import NotFound from "./pages/NotFound";
 import UserProfile from "./pages/Profile";
 import EditBlog from "./pages/EditBlog";
+import AuthProtection from "./route/authProtection";
 
 function App() {
   return (
@@ -17,8 +18,14 @@ function App() {
       <Toaster reverseOrder={false} />
       <Routes>
         {/* Auth Routes */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/login"
+          element={<AuthProtection element={<Login />} redirectTo={"/"} />}
+        />
+        <Route
+          path="/register"
+          element={<AuthProtection element={<Register />} redirectTo={"/"} />}
+        />
 
         {/* Main Layout Route */}
         <Route path="/" element={<Home />} />

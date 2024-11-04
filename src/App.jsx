@@ -6,6 +6,9 @@ import { Toaster } from "react-hot-toast";
 import MainLayout from "./components/layout/MainLayout";
 import Blog from "./pages/Blog";
 import BlogDetails from "./pages/BlogDetails";
+import CreateBlog from "./pages/CreateBlog";
+import NotFound from "./pages/NotFound";
+import UserProfile from "./pages/Profile";
 
 function App() {
   return (
@@ -20,7 +23,10 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/blog" element={<Blog /> } />
-          <Route path="/blog/:id" element={<BlogDetails />} />
+          <Route path="/blog/:slug" element={<BlogDetails />} />
+          <Route path="/blog/create" element={<CreateBlog />} />
+          <Route path="/profile" element={<UserProfile />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </Router>

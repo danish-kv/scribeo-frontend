@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { LoginThunk } from "../../redux/thunk/authThunk";
+import { showToast } from "../../utils/showToast";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -25,11 +26,29 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
     setError("");
+    if (!formData.username.trim()) {
+      setError("Username can't be empty.");
+      return;
+    } else if (!formData.password.trim()) {
+      setError("Password can't be empty.");
+      return;
+    }
+
+    setIsLoading(true);
 
     try {
-      await dispatch(LoginThunk(formData));
+      const res = await dispatch(LoginThunk(formData));
+      console.log("res of login-=====", res);
+
+      if (res.payload.status === 404) {
+        const Error = res.payload.response.data;
+        console.log(Error);
+        if (Error) {
+          showToast(400, Error);
+          return;
+        }
+      }
       navigate("/");
     } catch (error) {
       setError("Invalid username or password. Please try again.");
@@ -152,9 +171,9 @@ const Login = () => {
             </div>
 
             <div className="text-sm">
-              <a href="#" className="font-medium text-black hover:text-black">
+              <span className="font-medium text-black hover:text-black">
                 Forgot password?
-              </a>
+              </span>
             </div>
           </div>
 

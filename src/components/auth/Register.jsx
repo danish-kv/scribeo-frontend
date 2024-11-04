@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { SignupThunk } from "../../redux/thunk/authThunk";
+import { showToast } from "../../utils/showToast";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -26,13 +27,41 @@ const Register = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
     setError("");
+    if (!formData.username.trim()) {
+      setError("Username can't be empty.");
+      return;
+    } else if (!formData.password.trim()) {
+      setError("Password can't be empty.");
+      return;
+    } else if (!formData.email.trim()) {
+      setError("Email can't be empty.");
+      return;
+    }
+
+    setIsLoading(true);
 
     try {
-      await dispatch(SignupThunk(formData));
+      const res = await dispatch(SignupThunk(formData));
+      console.log("ress ====", res);
+      if (res.payload.status === 400) {
+        const errorEmail = res.payload.response.data.email[0];
+        const errorPassword = res.payload.response.data.username[0];
+        if (errorEmail) {
+          showToast(400, errorEmail);
+          return;
+        } else if (errorPassword) {
+          showToast(400, errorPassword);
+          return;
+        }
+      }
+
+      console.log("ress ====", res.payload.response.data.email[0]);
+
       navigate("/login");
     } catch (error) {
+      console.log("error catch ====", error);
+
       setError("Registration failed. Please try again.");
     } finally {
       setIsLoading(false);

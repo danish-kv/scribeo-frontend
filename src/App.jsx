@@ -21,15 +21,15 @@ function App() {
         <Route path="/register" element={<Register />} />
 
         {/* Main Layout Route */}
+        <Route path="/" element={<Home />} />
         <Route element={<MainLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/blog" element={<Blog /> } />
+          <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogDetails />} />
           <Route path="/blog/create" element={<CreateBlog />} />
           <Route path="/blog/edit/:slug" element={<EditBlog />} />
           <Route path="/profile" element={<UserProfile />} />
         </Route>
-          <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );

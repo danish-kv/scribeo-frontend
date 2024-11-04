@@ -1,168 +1,96 @@
 import React from "react";
-import {
-  ArrowRight,
-  Feather,
-  Users,
-  Sparkles,
-  TrendingUp,
-  BookOpen,
-} from "lucide-react";
+import { ArrowRight, Pen, Users, BookOpen, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
+import Header from "../components/layout/Header";
 
 const Home = () => {
-  const featuredPosts = [
-    {
-      title: "The Art of Creative Writing",
-      excerpt:
-        "Discover the secrets behind crafting compelling narratives that captivate readers...",
-      author: "Sarah Johnson",
-      readTime: "6 min read",
-      category: "Writing",
-      authorImage: "/api/placeholder/32/32",
-    },
-    {
-      title: "Building a Personal Brand",
-      excerpt:
-        "Learn how to establish your unique voice and grow your audience in the digital age...",
-      author: "Michael Chen",
-      readTime: "8 min read",
-      category: "Marketing",
-      authorImage: "/api/placeholder/32/32",
-    },
-    {
-      title: "The Future of Technology",
-      excerpt:
-        "Exploring the latest trends and innovations shaping our digital landscape...",
-      author: "Alex Rivera",
-      readTime: "5 min read",
-      category: "Technology",
-      authorImage: "/api/placeholder/32/32",
-    },
-  ];
-
-  const features = [
-    {
-      icon: <Feather className="h-6 w-6" />,
-      title: "Start Writing",
-      description: "Share your ideas with our easy-to-use editor",
-    },
-    {
-      icon: <Users className="h-6 w-6" />,
-      title: "Build Community",
-      description: "Connect with readers and fellow writers",
-    },
-    {
-      icon: <TrendingUp className="h-6 w-6" />,
-      title: "Grow Audience",
-      description: "Reach millions of engaged readers",
-    },
-  ];
-
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="bg-white border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center">
-            <h1 className="text-5xl font-bold text-gray-900 mb-6">
-              Where good ideas find you
-            </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Read and share new perspectives on just about any topic.
-              Everyone's welcome. Share your thinking.
-            </p>
-            <Link to={"/blog"}>
-              <span className="inline-flex items-center px-6 py-3 rounded-full bg-black text-white hover:bg-gray-800">
-                Start writing
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </span>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Trending Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center mb-8">
-            <Sparkles className="h-6 w-6 text-yellow-500 mr-2" />
-            <h2 className="text-2xl font-bold text-gray-900">
-              Trending on Scribeo
-            </h2>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            {featuredPosts.map((post, index) => (
-              <div
-                key={index}
-                className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow"
-              >
-                <div className="flex items-center mb-4">
-                  <img
-                    src={post.authorImage}
-                    alt={post.author}
-                    className="h-8 w-8 rounded-full"
-                  />
-                  <div className="ml-3">
-                    <p className="text-sm font-medium text-gray-900">
-                      {post.author}
-                    </p>
-                    <p className="text-sm text-gray-500">{post.readTime}</p>
-                  </div>
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  {post.title}
-                </h3>
-                <p className="text-gray-600 mb-4">{post.excerpt}</p>
-                <span className="inline-block px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-700">
-                  {post.category}
+    <div className="flex flex-col h-screen overflow-hidden">
+    <Header />
+    <main className="flex-1 bg-gradient-to-br from-white to-gray-50 flex items-center overflow-hidden">
+      {/* Main Content */}
+      <div className="w-full">
+        {/* Hero Section */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Left Column - Text Content */}
+            <div className="space-y-6 md:space-y-8">
+              <div className="inline-flex items-center px-4 py-1.5 bg-gray-100 rounded-full text-sm text-gray-600">
+                <Sparkles className="h-4 w-4 text-yellow-500 mr-2" />
+                <span className="hidden sm:inline">Writing platform for modern creators</span>
+                <span className="sm:hidden">Modern Writing Platform</span>
+              </div>
+              
+              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                Where good ideas{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">
+                  find you
                 </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+              </h1>
+              
+              <p className="text-lg md:text-xl text-gray-600">
+                Read and share new perspectives on just about any topic.
+                Everyone's welcome. Let your ideas flow.
+              </p>
 
-      {/* Features Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-            Why writers choose Scribeo
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <div key={index} className="text-center">
-                <div className="inline-flex items-center justify-center h-12 w-12 rounded-full bg-black text-white mb-4">
-                  {feature.icon}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link to="/blog">
+                  <span className="inline-flex items-center px-6 sm:px-8 py-3 rounded-full bg-black text-white hover:bg-gray-800 transition-all transform hover:translate-y-[-2px] shadow-sm hover:shadow w-full sm:w-auto justify-center">
+                    Start writing
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </span>
+                </Link>
+                <Link to="/blog" className="w-full sm:w-auto">
+                  <span className="inline-flex items-center px-6 sm:px-8 py-3 rounded-full border border-gray-200 text-gray-600 hover:border-gray-400 hover:text-gray-900 transition-all justify-center w-full">
+                    Explore blogs
+                    <BookOpen className="ml-2 h-5 w-5" />
+                  </span>
+                </Link>
+              </div>
+
+              {/* Stats */}
+              <div className="grid grid-cols-2 gap-4 sm:gap-8 pt-6 sm:pt-8 border-t">
+                <div>
+                  <div className="flex items-center text-gray-600 mb-2">
+                    <Pen className="h-5 w-5 mr-2" />
+                    <span className="hidden sm:inline">Active Writers</span>
+                    <span className="sm:hidden">Writers</span>
+                  </div>
+                  <p className="text-2xl sm:text-3xl font-bold text-gray-900">10K+</p>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-600">{feature.description}</p>
+                <div>
+                  <div className="flex items-center text-gray-600 mb-2">
+                    <Users className="h-5 w-5 mr-2" />
+                    <span className="hidden sm:inline">Monthly Readers</span>
+                    <span className="sm:hidden">Readers</span>
+                  </div>
+                  <p className="text-2xl sm:text-3xl font-bold text-gray-900">2M+</p>
+                </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+            </div>
 
-      {/* Start Writing CTA */}
-      <section className="py-20 bg-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-white mb-6">
-            Start your writing journey today
-          </h2>
-          <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
-            Join millions of others and share your stories, ideas, and expertise
-            with readers worldwide.
-          </p>
-          <Link to={"/register"}>
-            <span className="inline-flex items-center px-6 py-3 rounded-full bg-white text-black hover:bg-gray-100">
-              <BookOpen className="mr-2 h-5 w-5" />
-              Create your account
-            </span>
-          </Link>
-        </div>
-      </section>
-    </div>
+            {/* Right Column - Visual Element */}
+            <div className="hidden md:block relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-100/40 to-pink-100/40 rounded-2xl transform rotate-3"></div>
+              <div className="relative bg-white rounded-2xl shadow-xl p-8 transform -rotate-3 transition-transform hover:rotate-0">
+                <div className="space-y-6">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="flex items-start gap-4">
+                      <div className="w-10 h-10 rounded-full bg-gray-200 flex-shrink-0"></div>
+                      <div className="flex-1 space-y-2">
+                        <div className="h-4 bg-gray-100 rounded w-3/4"></div>
+                        <div className="h-3 bg-gray-50 rounded w-1/2"></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
   );
 };
 

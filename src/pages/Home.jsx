@@ -34,7 +34,7 @@ const Home = () => {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/blog">
+                <Link to="/blog/create">
                   <span className="inline-flex items-center px-6 sm:px-8 py-3 rounded-full bg-black text-white hover:bg-gray-800 transition-all transform hover:translate-y-[-2px] shadow-sm hover:shadow w-full sm:w-auto justify-center">
                     Start writing
                     <ArrowRight className="ml-2 h-5 w-5" />

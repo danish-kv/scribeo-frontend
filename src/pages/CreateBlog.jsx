@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Upload, X, Image as ImageIcon, Tag } from "lucide-react";
 
 import ReactQuill from "react-quill";
@@ -6,8 +6,8 @@ import "react-quill/dist/quill.snow.css";
 import api from "../services/api";
 import { showToast } from "../utils/showToast";
 import { useNavigate } from "react-router-dom";
-import useFetch from "../hooks/useFetch";
 import useFetchCategory from "../hooks/useFetchCategory";
+import { useSelector } from "react-redux";
 
 const CreateBlog = () => {
   const [title, setTitle] = useState("");
@@ -16,14 +16,20 @@ const CreateBlog = () => {
   const [coverImage, setCoverImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [tags, setTags] = useState([]);
-  const [currentTag, setCurrentTag] = useState("");
   const [category, setCategory] = useState("");
   const [publishing, setPublishing] = useState(false);
   const [showTips, setShowTips] = useState(true);
   const navigate = useNavigate()
-
-  // Sample categories - in a real app, these would come from your backend
+  const {user} = useSelector((state) => state.auth)
   const { categories } = useFetchCategory()
+
+  useEffect(() => {
+    if(!user){
+      navigate('/login')
+      showToast(100, 'Please Login')
+      return
+    }
+  }, [])
 
   // Quill modules configuration
   const modules = {
@@ -40,25 +46,12 @@ const CreateBlog = () => {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setCoverImage(file); // Store the actual file
-      // If you want to show a preview, you can create a URL for the image
+      setCoverImage(file); 
       const imageUrl = URL.createObjectURL(file);
-      // Handle the preview (e.g., setting another state for the preview URL)
       setPreviewImage(imageUrl);
     }
   };
 
-  const handleAddTag = (e) => {
-    e.preventDefault();
-    if (currentTag && !tags.includes(currentTag) && tags.length < 5) {
-      setTags([...tags, currentTag]);
-      setCurrentTag("");
-    }
-  };
-
-  const removeTag = (tagToRemove) => {
-    setTags(tags.filter((tag) => tag !== tagToRemove));
-  };
 
   const handlePublish = async () => {
     setPublishing(true);

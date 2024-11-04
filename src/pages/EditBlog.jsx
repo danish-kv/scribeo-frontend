@@ -7,6 +7,7 @@ import { showToast } from "../utils/showToast";
 import { useNavigate, useParams } from "react-router-dom";
 import useFetchCategory from "../hooks/useFetchCategory";
 import useFetchBlogDetails from "../hooks/useFetchBlogDetails";
+import { useSelector } from "react-redux";
 
 const EditBlog = () => {
   const [title, setTitle] = useState("");
@@ -18,11 +19,19 @@ const EditBlog = () => {
   const [updating, setUpdating] = useState(false);
   const [showTips, setShowTips] = useState(true);
   const [initialized, setInitialized] = useState(false);
-  console.log('cate====',category);
-  
+  const {user} = useSelector((state) => state.auth)
+
   const navigate = useNavigate();
   const { slug } = useParams();
   const { categories } = useFetchCategory();
+
+  useEffect(() => {
+    if(!user){
+      navigate('/login')
+      showToast(100, 'Please Login')
+      return
+    }
+  }, [])
   
   // Fetch blog details
   const fetchBlogDetails = async () => {

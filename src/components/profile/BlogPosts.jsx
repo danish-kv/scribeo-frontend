@@ -19,7 +19,7 @@ const BlogPosts = ({
     );
   }
 
-  if (blogs.length === 0) {
+  if (!blogs) {
     return (
       <div className="text-center py-12 bg-white rounded-lg shadow">
         <BookOpen className="h-12 w-12 text-gray-400 mx-auto" />

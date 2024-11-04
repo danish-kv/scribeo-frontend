@@ -12,7 +12,7 @@ const ProfileManager = ({ profile, fetchProfile }) => {
     username: profile?.username || '',
     email: profile?.email || '',
     bio: profile?.bio || '',
-    profileImage: null
+    profile: null
   });
   const [previewImage, setPreviewImage] = useState(profile?.profile || null);
   const {userID} = useSelector((state) => (state.auth))
@@ -23,7 +23,7 @@ const ProfileManager = ({ profile, fetchProfile }) => {
         username: profile.username || '',
         email: profile.email || '',
         bio: profile.bio || '',
-        profileImage: null
+        profile: null
       });
     }
   }, [profile]);
@@ -31,7 +31,7 @@ const ProfileManager = ({ profile, fetchProfile }) => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setEditProfile(prev => ({...prev, profileImage: file}));
+      setEditProfile(prev => ({...prev, profile: file}));
       setPreviewImage(URL.createObjectURL(file));
     }
   };
@@ -204,7 +204,7 @@ const ProfileManager = ({ profile, fetchProfile }) => {
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+                    className="px-4 py-2 text-white bg-black rounded-lg hover:bg-black transition-colors"
                   >
                     Save Changes
                   </button>

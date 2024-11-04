@@ -3,7 +3,7 @@ import { format } from "date-fns";
 import { Edit, Eye, Heart, MessageSquare, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const BlogPostCard = ({ blog, viewMode, onDelete, onEdit }) => {
+const BlogPostCard = ({ blog, viewMode, onDelete }) => {
   if (!blog) {
     return null;
   }
@@ -34,13 +34,14 @@ const BlogPostCard = ({ blog, viewMode, onDelete, onEdit }) => {
             </h3>
           </div>
           <div className="flex items-center space-x-2">
-            <button
-              onClick={() => onEdit(blog.slug)}
-              className="p-2 text-gray-400 hover:text-blue-500 hover:bg-blue-50 rounded-full transition-all duration-200"
-              title="Edit blog post"
-            >
-              <Edit className="h-4 w-4" />
-            </button>
+            <Link to={`/blog/edit/${blog.slug}`}>
+              <button
+                className="p-2 text-gray-400 hover:text-blue-500 hover:bg-blue-50 rounded-full transition-all duration-200"
+                title="Edit blog post"
+              >
+                <Edit className="h-4 w-4" />
+              </button>
+            </Link>
             <button
               onClick={() => onDelete(blog.slug)}
               className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-all duration-200"

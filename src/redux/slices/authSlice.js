@@ -4,6 +4,7 @@ import { LoginThunk, LogoutThunk, SignupThunk } from "../thunk/authThunk";
 const initialState = {
   user: null,
   userID: null,
+  profile: null,
   loading: false,
   error: null,
 };
@@ -34,6 +35,7 @@ const authSlice = createSlice({
       .addCase(LoginThunk.fulfilled, (state, action) => {
         state.user = action.payload.user;
         state.userID = action.payload.userID;
+        state.profile = action.payload.profile;
         state.loading = false;
         state.error = null;
       })
@@ -45,6 +47,7 @@ const authSlice = createSlice({
       .addCase(LogoutThunk.fulfilled, (state, action) => {
         state.user = null;
         state.userID = null;
+        state.profile = null;
         state.loading = false;
         state.error = null;
       });

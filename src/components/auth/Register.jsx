@@ -56,7 +56,6 @@ const Register = () => {
         }
       }
 
-      console.log("ress ====", res.payload.response.data.email[0]);
 
       navigate("/login");
     } catch (error) {

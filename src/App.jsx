@@ -10,7 +10,7 @@ import CreateBlog from "./pages/CreateBlog";
 import NotFound from "./pages/NotFound";
 import UserProfile from "./pages/Profile";
 import EditBlog from "./pages/EditBlog";
-import AuthProtection from "./route/authProtection";
+import AuthProtection from "./route/AuthProtection";
 
 function App() {
   return (

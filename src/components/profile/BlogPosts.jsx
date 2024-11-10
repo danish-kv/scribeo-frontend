@@ -76,7 +76,7 @@ const BlogPosts = ({
             : "space-y-6"
         }
       >
-        {blogs.map((blog) => (
+        {blogs && blogs.my_blogs.map((blog) => (
           <BlogPostCard
             key={blog.id}
             blog={blog}

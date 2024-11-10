@@ -1,25 +1,30 @@
-import React, { useState, useCallback } from "react";
-import {
-  BookmarkIcon,
-  TrendingUp,
-  Clock,
-  Search,
-  PenSquare,
-  User,
-} from "lucide-react";
-import { Link } from "react-router-dom";
-import useFetch from "../hooks/useFetch";
+import React, { useState, useMemo } from "react";
 import useFetchCategory from "../hooks/useFetchCategory";
-import { formatDate } from "../utils/format";
 import useFetchBlogs from "../hooks/useFetchBlogs";
+import SearchBar from "../components/blog/SearchBar";
+import CategoryFilter from "../components/blog/CategoryFilter";
+import FeaturedPosts from "../components/blog/FeaturedPosts";
+import LatestPosts from "../components/blog/LatestPosts";
+import LoadMoreButton from "../components/blog/LoadMoreButton";
 
 const Blog = () => {
   const { categories } = useFetchCategory();
-  const { blogs } = useFetchBlogs()
+  const { blogs, loadMoreBlogs, nextPage, loading, resetBlogs } =
+    useFetchBlogs();
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredPosts = useCallback(() => {
+  const handleCategoryChange = (category) => {
+    setActiveCategory(category);
+    resetBlogs();
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    resetBlogs();
+  };
+
+  const filteredPosts = useMemo(() => {
     if (!blogs) return [];
 
     return blogs.filter((post) => {
@@ -35,199 +40,43 @@ const Blog = () => {
     });
   }, [blogs, searchQuery, activeCategory]);
 
-  const featuredPosts = filteredPosts().filter((post) => post.featured);
-  const latestPosts = filteredPosts().filter((post) => !post.featured);
+  const featuredPosts = useMemo(
+    () => filteredPosts.filter((post) => post.featured),
+    [filteredPosts]
+  );
+
+  const latestPosts = useMemo(
+    () => filteredPosts.filter((post) => !post.featured),
+    [filteredPosts]
+  );
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Search and Filter Section */}
-      <div className="mb-8">
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Search articles..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full p-4 pl-12 rounded-lg border border-gray-200 focus:border-black focus:ring-1 focus:ring-black"
-          />
-          <Search className="absolute left-4 top-4 h-5 w-5 text-gray-400" />
+      <SearchBar
+        searchQuery={searchQuery}
+        onSearchChange={handleSearchChange}
+      />
+
+      <CategoryFilter
+        categories={categories}
+        activeCategory={activeCategory}
+        onCategoryChange={handleCategoryChange}
+      />
+
+      <FeaturedPosts posts={featuredPosts} />
+      <LatestPosts posts={latestPosts} />
+
+      {nextPage && !loading && filteredPosts.length > 0 && (
+        <div className="mt-12 text-center">
+          <LoadMoreButton onClick={loadMoreBlogs} loading={loading} />
         </div>
-      </div>
+      )}
 
-      {/* Categories Section */}
-      <div className="flex justify-between items-center mb-8">
-        <div className="flex items-center">
-          <div className="flex overflow-x-auto space-x-4 mb-8 pb-2">
-            <button
-              onClick={() => setActiveCategory("All")}
-              className={`px-4 py-2 rounded-full whitespace-nowrap ${
-                activeCategory === "All"
-                  ? "bg-black text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}
-            >
-              All
-            </button>
-            {categories && categories.length > 0 ? (
-              categories.map((category) => (
-                <button
-                  key={category.id}
-                  onClick={() => setActiveCategory(category.name)}
-                  className={`px-4 py-2 rounded-full whitespace-nowrap ${
-                    activeCategory === category.name
-                      ? "bg-black text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                  }`}
-                >
-                  {category.name}
-                </button>
-              ))
-            ) : (
-              <p className="text-gray-500">No categories available</p>
-            )}
-          </div>
+      {loading && (
+        <div className="mt-12 text-center">
+          <p className="text-gray-500">Loading stories...</p>
         </div>
-
-        {/* Write a Story Button */}
-        <Link
-          to="/blog/create"
-          className="flex items-center px-6 py-2.5 bg-black text-white rounded-full hover:bg-gray-800 transition-colors"
-        >
-          <PenSquare className="h-5 w-5 mr-2" />
-          <span>Write a Story</span>
-        </Link>
-      </div>
-
-      {/* Featured Posts Section */}
-      <div className="mb-12">
-        <div className="flex items-center mb-6">
-          <TrendingUp className="h-6 w-6 text-red-500 mr-2" />
-          <h2 className="text-2xl font-bold">Featured Stories</h2>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-8">
-          {featuredPosts.length > 0 ? (
-            featuredPosts.map((post) => (
-              <Link to={`/blog/${post.slug}`} key={post.id}>
-                <div className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="w-full h-48 object-cover"
-                  />
-                  <div className="p-6">
-                    <div className="flex items-center mb-4">
-                      {post.user.image ? (
-                        <img
-                          alt={post.user.username}
-                          className="h-10 w-10 rounded-full"
-                        />
-                      ) : (
-                        <User className="w-5 h-5 bg-gray-200 text-gray-600" />
-                      )}
-                      <div className="ml-3">
-                        <p className="text-sm font-medium text-gray-900">
-                          {post.user.username}
-                        </p>
-                      </div>
-                    </div>
-                    <h3 className="text-xl font-bold mb-2 hover:text-gray-600">
-                      {post.title}
-                    </h3>
-                    <p className="text-gray-600 mb-4">{post.subtitle}</p>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4 text-sm text-gray-500">
-                        <span>{formatDate(post?.created_at) || "N/A"}</span>
-                        <span>·</span>
-                        <span className="flex items-center">
-                          <Clock className="h-4 w-4 mr-1" />
-                          {post.reading_time}
-                        </span>
-                      </div>
-                      <button className="text-gray-400 hover:text-gray-600">
-                        <BookmarkIcon className="h-5 w-5" />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            ))
-          ) : (
-            <p className="text-gray-500">No featured stories available</p>
-          )}
-        </div>
-      </div>
-
-      {/* Latest Posts */}
-      <div>
-        <h2 className="text-2xl font-bold mb-6">Latest Stories</h2>
-        <div className="space-y-8">
-          {latestPosts.length > 0 ? (
-            latestPosts.map((post) => (
-              <Link to={`/blog/${post.slug}`} key={post.id}>
-                <div className="flex flex-col md:flex-row gap-8 pb-8 border-b last:border-b-0">
-                  <div className="flex-1">
-                    <div className="flex items-center mb-4">
-                      {post.user.image ? (
-                        <img
-                          alt={post.user.username}
-                          className="h-10 w-10 rounded-full"
-                        />
-                      ) : (
-                        <User className="w-5 h-5 text-gray-600" />
-                      )}
-                      <div className="ml-3">
-                        <p className="text-sm font-medium text-gray-900">
-                          {post.user.username}
-                        </p>
-                      </div>
-                    </div>
-                    <h3 className="text-xl font-bold mb-2 hover:text-gray-600">
-                      {post.title}
-                    </h3>
-                    <p className="text-gray-600 mb-4">{post.subtitle}</p>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4 text-sm text-gray-500">
-                        <span>{formatDate(post?.created_at) || "N/A"}</span>
-                        <span>·</span>
-                        <span className="flex items-center">
-                          <Clock className="h-4 w-4 mr-1" />
-                          {post.reading_time}
-                        </span>
-                        <span>·</span>
-                        <span className="px-2 py-1 rounded-full bg-gray-100 text-gray-700">
-                          {post.category_data.name}
-                        </span>
-                      </div>
-                      <button className="text-gray-400 hover:text-gray-600">
-                        <BookmarkIcon className="h-5 w-5" />
-                      </button>
-                    </div>
-                  </div>
-                  <div className="md:w-1/4">
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      className="w-full h-40 object-cover rounded-lg"
-                    />
-                  </div>
-                </div>
-              </Link>
-            ))
-          ) : (
-            <p className="text-gray-500">
-              No stories found matching your criteria
-            </p>
-          )}
-        </div>
-      </div>
-
-      {/* Load More Button */}
-      <div className="mt-12 text-center">
-        <button className="px-6 py-3 bg-black text-white rounded-full hover:bg-gray-800">
-          Load more stories
-        </button>
-      </div>
+      )}
     </div>
   );
 };

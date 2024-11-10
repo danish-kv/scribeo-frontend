@@ -1,8 +1,5 @@
 import React from "react";
 import {
-  BookmarkIcon,
-  Heart,
-  MessageCircle,
   Share2,
   Twitter,
   Linkedin,
@@ -54,9 +51,9 @@ const BlogDetails = () => {
             <div>
               <div className="flex items-center space-x-2">
                 <h3 className="font-medium">{datas.user.username}</h3>
-                <button className="text-green-600 text-sm font-medium">
+                {/* <button className="text-green-600 text-sm font-medium">
                   Follow
-                </button>
+                </button> */}
               </div>
               <div className="text-sm text-gray-600">
                 {/* <span>{datas.user.followers} followers</span> */}
@@ -113,7 +110,7 @@ const BlogDetails = () => {
         </div>
 
         {/* Engagement bar */}
-        <div className="flex items-center justify-between py-4 border-t border-b">
+        {/* <div className="flex items-center justify-between py-4 border-t border-b">
           <div className="flex items-center space-x-6">
             <button className="flex items-center space-x-2 text-gray-600 hover:text-gray-900">
               <Heart className="h-5 w-5" />
@@ -128,7 +125,7 @@ const BlogDetails = () => {
             <BookmarkIcon className="h-5 w-5" />
             <span>Save</span>
           </button>
-        </div>
+        </div> */}
 
         {/* Author bio */}
         <div className="mt-8 p-6 bg-gray-50 rounded-lg">
@@ -148,9 +145,9 @@ const BlogDetails = () => {
                 {/* <p className="text-sm text-gray-600">{datas.user.role}</p> */}
               </div>
             </div>
-            <button className="px-4 py-2 border border-green-600 text-green-600 rounded-full hover:bg-green-600 hover:text-white transition-colors">
+            {/* <button className="px-4 py-2 border border-green-600 text-green-600 rounded-full hover:bg-green-600 hover:text-white transition-colors">
               Follow
-            </button>
+            </button> */}
           </div>
           {/* <p className="text-gray-600">{datas.user.bio}</p> */}
         </div>

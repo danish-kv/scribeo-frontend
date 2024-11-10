@@ -46,7 +46,7 @@ const UserProfile = () => {
 
       <div className="mt-8">
         <BlogPosts
-          blogs={profile.my_blog}
+          blogs={profile[0]}
           viewMode={viewMode}
           setViewMode={setViewMode}
           handleDeleteBlog={handleDeleteBlog}

@@ -7,6 +7,8 @@ const BlogPostCard = ({ blog, viewMode, onDelete }) => {
   if (!blog) {
     return null;
   }
+    const BASE_URL = import.meta.env.VITE_BASE_URL
+
 
   return (
     <div
@@ -17,7 +19,7 @@ const BlogPostCard = ({ blog, viewMode, onDelete }) => {
     >
       <div className={viewMode === "list" ? "w-48 flex-shrink-0" : ""}>
         <img
-          src={blog.image}
+          src={`${BASE_URL}${blog.image}`}
           alt={blog.title}
           className={`w-full h-48 object-cover ${
             viewMode === "list" ? "h-full" : ""
